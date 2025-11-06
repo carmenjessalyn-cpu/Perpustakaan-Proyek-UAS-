@@ -1,0 +1,24 @@
+// package com.example.demospringboot.controller;
+
+// import org.springframework.stereotype.Controller;
+// import org.springframework.web.bind.annotation.GetMapping;
+// import org.springframework.web.bind.annotation.ResponseBody;
+
+// @Controller
+// public class HelloController {
+//     @GetMapping("/")
+//     @ResponseBody
+//     public String index() {
+//         return "Hello world wide web!";
+//     }
+
+//     @GetMapping("/index.html")
+//     public String infex() {
+//         return "index.html";
+//     }
+
+//     @GetMapping("/home.html")
+//     public String home() {
+//         return "home.html";
+//     }
+// }

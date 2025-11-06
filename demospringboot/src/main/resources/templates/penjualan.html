@@ -1,0 +1,87 @@
+<html>
+<head>
+    <title>Halaman Penjualan</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/form.css}" />
+</head>
+
+<body>
+    <div class="first-box">
+        <h2>Daftar Penjualan</h2>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Kode</th>
+                    <th>PIC</th>
+                    <th>Jumlah</th>
+                    <th>Tipe Barang</th>
+                    <th>Tanggal</th>
+                    <th>Harga Jual</th>
+                </tr>
+            </thead>
+            <tbody th:each="d, no : ${penjualanList}">
+                <tr th:with="checkid=${d.getPerson().getId()}">
+                    <td th:text="${no.count}"></td>
+                    <td><a th:href="@{/penjualan/{id}(id=${d.getSaleID})}" th:text="'sale000' + ${d.getSaleID}">
+                        </a></td>
+                    <td th:text="${personList.^[id==#root.checkid].name}"></td>
+                    <td th:text="${d.getJumlah()}"></td>
+                    <td th:if="${d.getProduk() != null}" th:text="${d.getProduk().getTipe()}"></td>
+                    <td th:if="${d.getProduk() == null}">*No Product*</td>
+                    <td th:text="${#temporals.format(d.getTanggal(), 'dd MMM yyyy HH:mm:ss')}"></td>
+                    <td th:text="${#strings.replace(#numbers.formatCurrency(d.getHargaJual()),'.00','')}">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="second-box">
+        <div id="feedback-form">
+            <h2 class="header">Form Management</h2>
+            <form th:action="@{/penjualan/submit/{id}(id=${penjualanRec?.getSaleID()})}" method="post"
+                th:object="${penjualanInfo}" class="form-group">
+                <label for="id" class="form-label">Kode Penjualan</label>
+                <input type="number" id="id" name="id"
+                    th:value="${penjualanRec != null} ? ${penjualanRec.getSaleID()}: '0'" readonly />
+
+                <label for="person" class="form-label">PIC</label>
+                <select id="person" name="person">
+                    <option th:each="d: ${personList}" th:value="${d.getId()}" th:text="${d.getName()}"
+                        th:selected="${penjualanRec!=null and penjualanRec.getPerson()!=null}? (${d.getId()} == ${penjualanRec.getPerson().getId()})">
+                    </option>
+                </select>
+                <br />
+
+                <label for="jumlah" class="form-label">Jumlah Barang</label>
+                <input type="number" id="jumlah" name="jumlah" th:value="${penjualanRec?.getJumlah()}" required />
+                <br>
+
+                <label for="produk" class="form-label">Tipe Barang</label>
+                <select id="produk" name="produk">
+                    <option th:each="d: ${produkList}" th:value="${d.getId()}" th:text="${d.getTipe()}"
+                        th:selected="${penjualanRec!=null and penjualanRec.getProduk()!=null}? (${d.getId()} == ${penjualanRec.getProduk().getId()})">
+                    </option>
+                </select>
+                <br />
+
+                <label for="tanggal" class="form-label">Tanggal Transaksi</label>
+                <br />
+                <input type="datetime-local" id="tanggal" name="tanggal" 
+                    th:value="${penjualanRec!=null}? ${#strings.replace(#temporals.format(penjualanRec.getTanggal(), 'yyyy-MM-dd HH:mm'), ' ', 'T')}"
+                    required />
+                <br />
+
+                <label for="hargaJual" class="form-label">Harga Jual</label>
+                <input type="number" id="hargaJual" name="hargaJual" th:value="${penjualanRec?.getHargaJual()}"
+                    required />
+
+                <button type="submit" class="btn btn-primary" name="add">Add</button>
+                <button type="submit" class="btn btn-primary" name="edit">Edit</button>
+                <button type="submit" class="btn btn-primary" name="delete">Delete</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

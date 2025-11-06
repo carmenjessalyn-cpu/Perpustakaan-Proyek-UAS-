@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Buyer Page</title>
+
+    <link rel="stylesheet" th:href="@{/css/home.css}" />
+    <link rel="stylesheet" th:href="@{/css/table.css}" />
+    <link rel="stylesheet" th:href="@{/css/form.css}" />
+</head>
+
+<body>
+    <div class="first-box">
+        <h2>Buyer List</h2>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Kode</th>
+                    <th>Name</th>
+                    <th>No HP</th>
+                    <th>Alamat</th>
+                </tr>
+            </thead>
+            <tbody th:if="${buyerList != null}" th:each="b, no : ${buyerList}">
+                <tr>
+                    <td th:text="${no.count}"></td>
+                    <td>
+                        <a th:href="@{/buyer/{id}(id=${b.id})}" th:text="${b.kode}"></a>
+                    </td>
+                    <td th:text="${b.name}"></td>
+                    <td th:text="${b.noHP}"></td>
+                    <td th:text="${b.alamat}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="second-box">
+        <div id="feedback-form">
+            <h2 class="header">Buyer Management Form</h2>
+            <form th:action="@{/buyer/submit/{id}(id=${buyerRec != null ? buyerRec.id : 0})}" method="post"
+                th:object="${buyerInfo}" class="form-group">
+
+                <label for="id" class="form-label">ID</label>
+                <input type="number" id="id" name="id" th:value="${buyerRec != null ? buyerRec.id : 0}" readonly />
+
+                <label for="kode" class="form-label">Kode</label>
+                <input type="text" id="kode" name="kode" th:value="${buyerRec != null ? buyerRec.kode : ''}" required />
+
+                <label for="name" class="form-label">Name</label>
+                <input type="text" id="name" name="name" th:value="${buyerRec != null ? buyerRec.name : ''}" required />
+
+                <label for="noHP" class="form-label">No HP</label>
+                <input type="text" id="noHP" name="noHP" th:value="${buyerRec != null ? buyerRec.noHP : ''}" required />
+
+                <label for="alamat" class="form-label">Alamat</label>
+                <input type="text" id="alamat" name="alamat" th:value="${buyerRec != null ? buyerRec.alamat : ''}"
+                    required />
+
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary" name="add">Add</button>
+                    <button type="submit" class="btn btn-warning" name="edit">Edit</button>
+                    <button type="submit" class="btn btn-danger" name="delete"
+                        th:data-confirm-delete="|Are you sure you want to delete this buyer ${buyerRec != null ? buyerRec.id : ''}?|"
+                        onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false">
+                        Delete
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
