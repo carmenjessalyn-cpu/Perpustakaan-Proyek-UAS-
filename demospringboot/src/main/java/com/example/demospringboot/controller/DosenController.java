@@ -1,5 +1,5 @@
 // UAS OBP - Sistem Perpustakaan
-// Dosen Controller (Fixed Version)
+// Dosen Controller
 // author: Anindya Riandani - 825240068
 
 // source:
