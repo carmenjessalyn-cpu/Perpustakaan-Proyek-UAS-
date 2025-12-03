@@ -135,20 +135,17 @@ public class PeminjamanController {
             return "redirect:/managepeminjaman?error=itemNotFound";
         }
 
-        // PERUBAHAN: setItem menjadi setObjItem
         peminjamanInfo.setObjItem(item);
 
         // Tentukan apakah peminjamnya mahasiswa atau dosen
         Mahasiswa mahasiswa = mahasiswaService.getMahasiswaById(id);
 
         if (mahasiswa != null) {
-            // PERUBAHAN: setMahasiswa menjadi setObjMahasiswa
             peminjamanInfo.setObjMahasiswa(mahasiswa);
             peminjamanInfo.setObjDosen(null);
         } else {
             Dosen dosen = dosenService.getDosenById(id);
             if (dosen != null) {
-                // PERUBAHAN: setDosen menjadi setObjDosen
                 peminjamanInfo.setObjDosen(dosen);
                 peminjamanInfo.setObjMahasiswa(null);
             } else {
@@ -172,7 +169,6 @@ public class PeminjamanController {
         // Update item jika diganti
         Item item = itemService.getItemById(itemId);
         if (item != null) {
-            // PERUBAHAN: setItem menjadi setObjItem
             peminjamanInfo.setObjItem(item);
         }
 
@@ -180,13 +176,11 @@ public class PeminjamanController {
         if (anggotaId != null && anggotaId > 0) {
             Mahasiswa mahasiswa = mahasiswaService.getMahasiswaById(anggotaId);
             if (mahasiswa != null) {
-                // PERUBAHAN: setMahasiswa menjadi setObjMahasiswa
                 peminjamanInfo.setObjMahasiswa(mahasiswa);
                 peminjamanInfo.setObjDosen(null);
             } else {
                 Dosen dosen = dosenService.getDosenById(anggotaId);
                 if (dosen != null) {
-                    // PERUBAHAN: setDosen menjadi setObjDosen
                     peminjamanInfo.setObjDosen(dosen);
                     peminjamanInfo.setObjMahasiswa(null);
                 }
