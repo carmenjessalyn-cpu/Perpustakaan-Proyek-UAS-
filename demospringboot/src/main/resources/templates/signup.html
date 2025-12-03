@@ -1,0 +1,61 @@
+<!-- UAS OBP - Sistem Perpustakaan
+HTML tampilan sign up untuk dosen/mahasiswa
+author: Keysa Abigail - 825240077
+
+source: 
+- bootstrap 5 
+- materi pembelajaran mata kuliah web development
+- TM09 - Java GUI berbasis Website
+- TM10 - Database dan Java Web GUI Part I
+- TM11 - Database dan Java Web GUI Part II
+- TM12 - Database dan Java Web GUI Part III
+- TM13 - Polymorphism Association
+-->
+
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/image/Logo/favicon.ico}" rel="icon" type="image/x-icon" />
+    <title>Sign Up Page - Perpustakaan</title>
+    <link rel="stylesheet" th:href="@{/css/signin.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+</head>
+
+<body>
+    <div class="signin">
+        <!-- header sambutan  -->
+        <div class="signin-header">
+            <h1>Selamat Datang</h1>
+            <p>Silahkan isi beberapa data di bawah ini:</p>
+        </div>
+        <div class="signin-body">
+            <!-- button pemilihan role  -->
+            <form th:action="@{/validateLogin}" method="post" class="form-group" enctype="multipart/form-data">
+                <center>
+                    <div class="btn-group">
+                        <button class="btn btn-secondary btn-lg" type="button">
+                            Daftar Sebagai
+                        </button>
+                        <button type="button" class="btn btn-lg btn-secondary dropdown-toggle dropdown-toggle-split"
+                            role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="visually-hidden">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" required>
+                            <li><a class="dropdown-item" th:href="@{/signup/dosen}">Dosen</a></li>
+                            <li><a class="dropdown-item" th:href="@{/signup/mahasiswa}">Mahasiswa</a></li>
+                        </ul>
+                    </div>
+                </center>
+            </form>
+            <br>
+            <!-- button kembali ke menu sign in  -->
+            <button class="signin-btn" type="submit" name="back" th:href="@{/signin}">Kembali</button>
+        </div>
+    </div>
+</body>
+
+</html>

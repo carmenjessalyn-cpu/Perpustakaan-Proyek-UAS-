@@ -1,0 +1,68 @@
+<!-- UAS OBP - Sistem Perpustakaan
+HTML sign in
+author: Keysa Abigail - 825240077
+
+source: 
+- bootstrap 5 
+- materi pembelajaran mata kuliah web development
+- TM09 - Java GUI berbasis Website
+- TM10 - Database dan Java Web GUI Part I
+- TM11 - Database dan Java Web GUI Part II
+- TM12 - Database dan Java Web GUI Part III
+- TM13 - Polymorphism Association
+-->
+
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/image/Logo/favicon.ico}" rel="icon" type="image/x-icon" />
+    <title>Sign In Page - Perpustakaan</title>
+    <link rel="stylesheet" th:href="@{/css/signin.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</head>
+
+<body>
+    <div class="signin">
+        <div class="signin-header">
+            <!-- header sambutan  -->
+            <h1>Selamat Datang</h1>
+            <p>Silakan Sign In ke akun Anda</p>
+        </div>
+        <div class="signin-body">
+            <div th:if="${error}" class="alert alert-danger" role="alert">
+                <span th:text="${error}"></span>
+            </div>
+
+            <!-- form input data  -->
+            <form th:action="@{/validateSignin}" method="post" class="form-group">
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="nama@gmail.com" required>
+                </div>
+                <div class="input-group">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="password" name="password"
+                            placeholder="Masukkan password Anda" required>
+                        <div id="passwordHelpBlock" class="form-text">
+                            Your password must be 8-20 characters long, contain letters and numbers, and must not
+                            contain spaces, special characters, or emoji.
+                        </div>
+                    </div>
+                </div>
+                <!-- button submit data  -->
+                <button class="signin-btn" type="submit" name="masuk">Masuk</button>
+                <div class="divider">atau</div>
+                <!-- button daftar akun  -->
+                <div class="signup-link">
+                    Belum punya akun? <a th:href="@{/signup}">Daftar sekarang</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

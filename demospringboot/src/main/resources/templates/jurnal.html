@@ -1,0 +1,102 @@
+<!-- UAS OBP - Sistem Perpustakaan
+HTML tampilan jurnal untuk anggota (mahasiswa/dosen)
+author: Carmen Jessalyn Tjong Malik - 825240096
+
+source: 
+- bootstrap 5 
+- materi pembelajaran mata kuliah web development
+- TM09 - Java GUI berbasis Website
+- TM10 - Database dan Java Web GUI Part I
+- TM11 - Database dan Java Web GUI Part II
+- TM12 - Database dan Java Web GUI Part III
+- TM13 - Polymorphism Association
+-->
+
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/image/Logo/favicon.ico}" rel="icon" type="image/x-icon" />
+    <title>Dashboard Admin - Jurnal</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+
+<body>
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <!-- logo  -->
+            <a class="navbar-brand" href="#">
+                <img th:src="@{image/Logo/3.png}" alt="" width="30" height="30" class="d-inline-block align-text-top">
+                Peonies Library
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- menu -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/buku}">Katalog Buku</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/majalah}">Katalog Majalah</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/jurnal}">Katalog Jurnal</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- menampilkan user yang sedang login & logout dari sesi -->
+    <br>
+    <center>
+        <div class="container">
+            <div th:text="'Welcome ' + ${loggedUser?.nama}"></div>
+            <a th:href="@{/logout}" class="btn btn-danger btn-sm">LOGOUT</a>
+        </div>
+    </center>
+    <br>
+    <center>
+        <div class="container">
+            <div class="col-lg-8">
+                <!-- menampilkan data yang ada dalam bentuk tabel  -->
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Daftar Jurnal</h5>
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="tableJurnal">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Judul</th>
+                                        <th>Penulis</th>
+                                        <th>Volume</th>
+                                        <th>Edisi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Looping data jurnal dari controller (listJurnal) -->
+                                    <tr th:each="j : ${listJurnal}">
+                                        <td th:text="${j.itemId}"></td>
+                                        <td th:text="${j.judul}"></td>
+                                        <td th:text="${j.penulis}"></td>
+                                        <td th:text="${j.volume}"></td>
+                                        <td th:text="${j.edisi}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </center>
+</body>
+
+</html>

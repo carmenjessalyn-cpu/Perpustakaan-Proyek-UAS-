@@ -1,0 +1,184 @@
+<!-- UAS OBP - Sistem Perpustakaan
+HTML tampilan manajemen dosen untuk staff
+author: Carmen Jessalyn Tjong Malik - 825240096
+
+source: 
+- bootstrap 5 
+- materi pembelajaran mata kuliah web development
+- TM09 - Java GUI berbasis Website
+- TM10 - Database dan Java Web GUI Part I
+- TM11 - Database dan Java Web GUI Part II
+- TM12 - Database dan Java Web GUI Part III
+- TM13 - Polymorphism Association
+-->
+
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/image/Logo/favicon.ico}" rel="icon" type="image/x-icon" />
+    <title>Dashboard Admin - Dosen</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+
+<body>
+    <!-- navbar  -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <!-- logo  -->
+            <a class="navbar-brand" href="#">
+                <img th:src="@{image/Logo/3.png}" alt="" width="30" height="30" class="d-inline-block align-text-top">
+                Peonies Library
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- list menu  -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/managestaff}">Manage Staff</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/managedosen}">Manage Dosen</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/managemahasiswa}">Manage Mahasiswa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/managebuku}">Manage Buku</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/managemajalah}">Manage Majalah</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/managejurnal}">Manage Jurnal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/managepeminjaman}">Manage Peminjaman</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- menampilkan user yang sedang login & tombol logout dari sesi -->
+    <br>
+    <center>
+        <div class="container">
+            <div th:text="'Welcome ' + ${logStaff?.nama}"></div>
+            <a th:href="@{/stafflogout}" class="btn btn-danger btn-sm">LOGOUT</a>
+        </div>
+    </center>
+    <br>
+
+    <div class="container">
+        <div class="row g-4">
+
+            <!-- manajemen form  -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+
+                        <h5 class="card-title">Form Management Dosen</h5>
+
+                        <form th:action="@{/managedosen/submit/{id}(id=${dosenRec != null ? dosenRec.id : 0})}"
+                            method="post" th:object="${dosenInfo}" class="form-group">
+
+                            <label for="id" class="form-label">ID</label>
+                            <input type="number" id="id" name="id" th:value="${dosenRec != null ? dosenRec.id : 0}"
+                                class="form-control" readonly />
+
+                            <label for="nidn" class="form-label">NIDN</label>
+                            <input type="text" id="nidn" name="nidn" th:value="${dosenRec?.nidn}" class="form-control"
+                                required />
+
+                            <label for="nama" class="form-label mt-2">Nama</label>
+                            <input type="text" id="nama" name="nama" th:value="${dosenRec?.nama}" class="form-control"
+                                required />
+
+                            <label for="fakultas" class="form-label mt-2">Fakultas</label>
+                            <input type="text" id="fakultas" name="fakultas" th:value="${dosenRec?.fakultas}"
+                                class="form-control" required />
+
+                            <label for="alamat" class="form-label mt-2">Alamat</label>
+                            <input type="text" id="alamat" name="alamat" class="form-control"
+                                th:value="${dosenRec?.alamat}" required />
+
+                            <label for="email" class="form-label mt-2">Email</label>
+                            <input type="email" id="email" name="email" class="form-control"
+                                th:value="${dosenRec?.email}" required />
+
+                            <label for="noTelp" class="form-label mt-2">No Telepon</label>
+                            <input type="text" id="noTelp" name="noTelp" class="form-control"
+                                th:value="${dosenRec?.noTelp}" required />
+
+                            <label for="password" class="form-label mt-2">Password</label>
+                            <input type="password" id="password" name="password" class="form-control"
+                                th:value="${dosenRec?.password}" required />
+
+                            <center>
+                                <div class="button-group mt-3">
+                                    <button type="submit" class="btn btn-primary" name="add">Add</button>
+                                    <button type="submit" class="btn btn-warning" name="edit">Edit</button>
+                                    <button type="submit" class="btn btn-danger" name="delete"
+                                        th:data-confirm-delete="|Are you sure you want to delete this dosen ${dosenRec?.nama}?|"
+                                        onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false">
+                                        Delete
+                                    </button>
+                                </div>
+                            </center>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- menampilkan data yang ada dalam bentuk tabel  -->
+            <div class="col-lg-8">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+
+                        <h5 class="card-title">Daftar Dosen</h5>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="tableDosen">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>NIDN</th>
+                                        <th>Nama</th>
+                                        <th>Fakultas</th>
+                                        <th>Email</th>
+                                        <th>No Telepon</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Looping data Dosen dari controller (listDosen) -->
+                                    <tr th:each="d : ${listDosen}">
+                                        <td th:text="${d.id}"></td>
+                                        <td th:text="${d.nidn}"></td>
+                                        <td th:text="${d.nama}"></td>
+                                        <td th:text="${d.fakultas}"></td>
+                                        <td th:text="${d.email}"></td>
+                                        <td th:text="${d.noTelp}"></td>
+                                        <td>
+                                            <a th:href="@{/dosen/{id}(id=${d.id})}" class="btn btn-sm btn-info">Edit</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

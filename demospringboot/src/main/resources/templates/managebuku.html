@@ -1,0 +1,170 @@
+<!-- UAS OBP - Sistem Perpustakaan
+HTML tampilan manajemen buku untuk staff
+author: Carmen Jessalyn Tjong Malik - 825240096
+
+source: 
+- bootstrap 5 
+- materi pembelajaran mata kuliah web development
+- TM09 - Java GUI berbasis Website
+- TM10 - Database dan Java Web GUI Part I
+- TM11 - Database dan Java Web GUI Part II
+- TM12 - Database dan Java Web GUI Part III
+- TM13 - Polymorphism Association
+-->
+
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/image/Logo/favicon.ico}" rel="icon" type="image/x-icon" />
+    <title>Dashboard Admin - Buku</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+
+<body>
+    <!-- navbar  -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <!-- logo  -->
+            <a class="navbar-brand" href="#">
+                <img th:src="@{/image/Logo/3.png}" alt="" width="30" height="30" class="d-inline-block align-text-top">
+                Peonies Library
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- menu  -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/managestaff}">Manage Staff</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/managedosen}">Manage Dosen</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/managemahasiswa}">Manage Mahasiswa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/managebuku}">Manage Buku</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/managemajalah}">Manage Majalah</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/managejurnal}">Manage Jurnal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/managepeminjaman}">Manage Peminjaman</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- menampilkan user yang sedang login & logout dari sesi -->
+    <br>
+    <center>
+        <div class="container">
+            <div th:text="'Welcome ' + ${logStaff?.nama}"></div>
+            <a th:href="@{/stafflogout}" class="btn btn-danger btn-sm">LOGOUT</a>
+        </div>
+    </center>
+    <br>
+    <div class="container">
+        <div class="row g-4">
+            <!-- form manajemen -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+
+                        <h5 class="card-title">Form Management Buku</h5>
+
+                        <form th:action="@{/buku/submit/{id}(id=${bukuRec?.itemId})}" method="post"
+                            th:object="${bukuInfo}" class="form-group">
+
+                            <label for="itemId" class="form-label">ID</label>
+                            <input type="number" id="itemId" name="itemId"
+                                th:value="${bukuRec != null ? bukuRec.itemId : 0}" class="form-control" readonly />
+
+                            <label for="judul" class="form-label mt-2">Judul</label>
+                            <input type="text" id="judul" name="judul" class="form-control" th:value="${bukuRec?.judul}"
+                                required />
+
+                            <label for="penulis" class="form-label mt-2">Penulis</label>
+                            <input type="text" id="penulis" name="penulis" class="form-control"
+                                th:value="${bukuRec?.penulis}" required />
+
+                            <label for="isbn" class="form-label mt-2">ISBN</label>
+                            <input type="text" id="isbn" name="isbn" class="form-control" th:value="${bukuRec?.isbn}"
+                                required />
+
+                            <label for="genre" class="form-label mt-2">Genre</label>
+                            <input type="text" id="genre" name="genre" class="form-control" th:value="${bukuRec?.genre}"
+                                required />
+
+                            <!-- button submit data  -->
+                            <center>
+                                <div class="button-group mt-3">
+                                    <button type="submit" class="btn btn-primary" name="add">Add</button>
+                                    <button type="submit" class="btn btn-warning" name="edit">Edit</button>
+                                    <button type="submit" class="btn btn-danger" name="delete"
+                                        th:data-confirm-delete="|Are you sure you want to delete this buku ${bukuRec?.itemId}?|"
+                                        onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false">
+                                        Delete
+                                    </button>
+                                </div>
+                            </center>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- menampilkan data yang ada dalam bentuk tabel  -->
+            <div class="col-lg-8">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+
+                        <h5 class="card-title">Daftar Buku</h5>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="tableBuku">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Judul</th>
+                                        <th>Penulis</th>
+                                        <th>ISBN</th>
+                                        <th>Genre</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Looping data Buku dari controller (listBuku) -->
+                                    <tr th:each="b : ${listBuku}">
+                                        <td th:text="${b.itemId}"></td>
+                                        <td th:text="${b.judul}"></td>
+                                        <td th:text="${b.penulis}"></td>
+                                        <td th:text="${b.isbn}"></td>
+                                        <td th:text="${b.genre}"></td>
+                                        <td>
+                                            <a th:href="@{/buku/{id}(id=${b.itemId})}"
+                                                class="btn btn-sm btn-info">Edit</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
